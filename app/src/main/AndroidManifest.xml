@@ -24,15 +24,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.samclarke.android.habittracker.ui.MainActivity" />
         </activity>
-        <activity
-            android:name=".ui.StatisticsActivity"
-            android:label="@string/title_activity_statistics"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.samclarke.android.habittracker.ui.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

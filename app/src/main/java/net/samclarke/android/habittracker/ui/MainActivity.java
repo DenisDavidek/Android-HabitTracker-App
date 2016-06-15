@@ -1,6 +1,8 @@
 package net.samclarke.android.habittracker.ui;
 
 import android.content.res.Configuration;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
     @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.navigation_view) NavigationView mNavigationView;
     ActionBarDrawerToggle mDrawerToggle;
 
 
@@ -32,6 +35,44 @@ public class MainActivity extends AppCompatActivity {
                 R.string.drawer_open,  R.string.drawer_close);
 
         mDrawer.addDrawerListener(mDrawerToggle);
+
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                selectDrawerItem(item);
+                return true;
+            }
+        });
+    }
+
+    public void selectDrawerItem(MenuItem item) {
+        Fragment fragment;
+
+        switch (item.getItemId()) {
+            case R.id.nav_goals_page:
+                fragment = new GoalsFragment();
+                break;
+            case R.id.nav_reminders_page:
+                fragment = new RemindersFragment();
+                break;
+            case R.id.nav_statistics_page:
+                fragment = new StatisticsActivityFragment();
+                break;
+            case R.id.nav_habits_page:
+            default:
+                fragment = new HabitsFragment();
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment, fragment)
+                .commit();
+
+        item.setChecked(true);
+
+        setTitle(item.getTitle());
+
+        mDrawer.closeDrawers();
     }
 
     @Override

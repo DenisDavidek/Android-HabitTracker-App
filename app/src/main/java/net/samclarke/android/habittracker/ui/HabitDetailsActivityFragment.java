@@ -1,8 +1,6 @@
 package net.samclarke.android.habittracker.ui;
 
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.format.DayFormatter;
 
 import net.samclarke.android.habittracker.R;
 
@@ -31,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HabitDetailsActivityFragment extends Fragment {
-    private static final String PARAM_HABIT_ID = "habitId";
+    private static final String EXTRA_HABIT_ID = "habitId";
     private int mHabitId;
 
     @BindView(R.id.habit_name) TextView mHabitName;
@@ -39,10 +36,10 @@ public class HabitDetailsActivityFragment extends Fragment {
     @BindView(R.id.line_chart) LineChart mLineChart;
 
 
-    public static MainActivityFragment newInstance(int habitId) {
-        MainActivityFragment fragment = new MainActivityFragment();
+    public static HabitsFragment newInstance(int habitId) {
+        HabitsFragment fragment = new HabitsFragment();
         Bundle args = new Bundle();
-        args.putInt(PARAM_HABIT_ID, habitId);
+        args.putInt(EXTRA_HABIT_ID, habitId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,7 +49,7 @@ public class HabitDetailsActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mHabitId = getArguments().getInt(PARAM_HABIT_ID);
+            mHabitId = getArguments().getInt(EXTRA_HABIT_ID);
         }
     }
 

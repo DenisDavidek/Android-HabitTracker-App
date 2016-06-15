@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="136dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <View
+        android:id="@+id/bar"
+        android:layout_width="8dp"
+        android:layout_height="136dp"
+        android:background="#ff0000" />
+
+    <TextView
+        android:id="@+id/habit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/bar"
+        android:layout_toEndOf="@id/bar"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        style="@style/TextAppearance.AppCompat.Headline"
+        tools:text="Habit Name" />
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/habit_name"
+        android:layout_toRightOf="@id/bar"
+        android:layout_toEndOf="@id/bar"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp" />
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendar_view"
+        android:layout_toRightOf="@id/bar"
+        android:layout_toEndOf="@id/bar"
+        android:max="100"
+        android:progress="43"
+        style="?android:progressBarStyleHorizontal"/>
+
+</RelativeLayout>

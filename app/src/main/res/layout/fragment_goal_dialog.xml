@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_row="0"
+            app:layout_column="0"
+            app:layout_columnSpan="2">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/goal_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/goal_name" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_row="1"
+            app:layout_column="0"
+            app:layout_columnWeight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/goal_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@string/goal_target_default"
+                android:hint="@string/goal_target" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_row="1"
+            app:layout_column="1"
+            app:layout_columnWeight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/goal_start_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"
+                android:hint="@string/goal_starting_date" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </android.support.v7.widget.GridLayout>
+</android.support.v4.widget.NestedScrollView>

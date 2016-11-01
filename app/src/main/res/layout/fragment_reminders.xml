@@ -1,17 +1,39 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="net.samclarke.android.habittracker.ui.RemindersFragment">
+    tools:context=".ui.HabitsFragment">
 
-    <Switch
-        android:id="@+id/reminders_enabled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enable reminders"
-        android:checked="true"
-        style="@style/TextAppearance.AppCompat.Widget.Switch"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/reminders_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="4dp"
+        android:paddingBottom="@dimen/recycler_fab_margin"
+        android:clipToPadding="false"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        android:visibility="gone" />
+
+    <!-- Needed so the textview can expand/collapse the
+    collapsible toolbar when show in habitActivity -->
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/list_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="You don't have any reminders" />
+
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

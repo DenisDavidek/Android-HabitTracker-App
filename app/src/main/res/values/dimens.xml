@@ -3,4 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <!-- margin to add below the last item in a recycler so it scrolls past the fab -->
+    <dimen name="recycler_fab_margin">90dp</dimen>
+    <dimen name="theme_icon_size">38dp</dimen>
+    <dimen name="theme_icon_margin">2dp</dimen>
+
+    <dimen name="day_button_padding">4dp</dimen>
+    <dimen name="day_button_size">36dp</dimen>
 </resources>

@@ -25,7 +25,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new HabitsFragment())
+                .commit();
 
         ButterKnife.bind(this);
 
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new RemindersFragment();
                 break;
             case R.id.nav_statistics_page:
-                fragment = new StatisticsActivityFragment();
+                fragment = new StatisticsFragment();
                 break;
             case R.id.nav_habits_page:
             default:
@@ -65,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment, fragment)
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
 
         item.setChecked(true);
@@ -77,11 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

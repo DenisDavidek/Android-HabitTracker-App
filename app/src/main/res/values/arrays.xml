@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="theme_colors" translatable="false">
+        <item>#2196F3</item>
+        <item>#F44336</item>
+        <item>#43A047</item>
+        <item>#EF6C00</item>
+        <item>#9C27B0</item>
+        <item>#E91E63</item>
+    </array>
+</resources>

@@ -3,7 +3,8 @@
     <color name="primary">#2196F3</color>
     <color name="primary_dark">#1976D2</color>
     <color name="accent">#FF4081</color>
-    <color name="day_done">#cc4CAF50</color>
-    <color name="day_skipped">#ccB0BEC5</color>
-    <color name="day_failed">#ccF44336</color>
+    <color name="day_done">#4CAF50</color>
+    <color name="day_skipped">#B0BEC5</color>
+    <color name="day_failed">#F44336</color>
+    <color name="default_theme">#2196F3</color>
 </resources>

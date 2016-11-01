@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/check_in_value_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/check_in_value_prefix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/check_in_value_prefix" />
+
+            <ImageButton
+                android:id="@+id/check_in_value_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_remove_circle_outline_black_24dp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:paddingRight="4dp"
+                android:paddingEnd="4dp"
+                android:contentDescription="@string/check_in_decrement" />
+
+            <EditText
+                android:id="@+id/check_in_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned|numberDecimal"
+                android:ems="2"
+                android:text="@string/check_in_default_value" />
+
+            <ImageButton
+                android:id="@+id/check_in_value_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="4dp"
+                android:paddingStart="4dp"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
+                android:contentDescription="@string/check_in_increment" />
+
+            <TextView
+                android:id="@+id/check_in_value_postfix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/check_in_value_postfix" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/check_in_target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/target_none" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/check_in_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/check_in_notes" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/check_in_auto_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/check_in_auto_status"
+            android:checked="true" />
+
+        <TextView
+            android:id="@+id/check_in_manual_status_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/check_in_status"
+            android:visibility="gone"
+            style="@style/TextAppearance.AppCompat.Caption" />
+
+        <Spinner
+            android:id="@+id/check_in_manual_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/check_in_statuses"
+            android:spinnerMode="dropdown"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

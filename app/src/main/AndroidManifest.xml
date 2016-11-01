@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.samclarke.android.habittracker">
+          package="net.samclarke.android.habittracker">
+
+    <!-- For geofencing and place picker -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <!-- For rescheduling alarms and geofences -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -8,22 +15,59 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAgBNFMwZkN4mXllZWvoorgpWCq-SkLLZY"/>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.TransparentStatusBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ui.HabitDetailsActivity"
+            android:name=".ui.CreateHabitActivity"
+            android:label="@string/title_activity_create_habit"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.DialogWhenLarge"/>
+
+        <activity
+            android:name=".ui.HabitActivity"
             android:label="@string/title_activity_habit_details"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.samclarke.android.habittracker.ui.MainActivity" />
-        </activity>
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.RequestPermissionActivity"
+            android:label="@string/title_activity_request_permission"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme" />
+
+        <provider
+            android:name=".provider.HabitsProvider"
+            android:authorities="@string/authority"
+            android:exported="false"/>
+
+        <service android:name=".notifications.GeofenceTransitionsIntentService"/>
+        <service android:name=".notifications.ActionIntentService"/>
+        <service android:name=".notifications.RescheduleIntentService"/>
+        <receiver android:name=".notifications.AlarmReceiver" />
+
+        <receiver
+            android:name=".notifications.BootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

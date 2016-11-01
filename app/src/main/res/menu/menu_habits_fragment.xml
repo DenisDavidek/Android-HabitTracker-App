@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_sort_by"
+          android:title="Sort By"
+          app:showAsAction="ifRoom">
+
+        <menu>
+            <item android:id="@+id/action_sort_by_title"
+                  android:title="Title" />
+
+            <item android:id="@+id/action_sort_by_start_date"
+                  android:title="Start Date" />
+        </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/action_add_habit"
+        android:orderInCategory="1"
+        android:title="@string/action_add_habit"
+        android:icon="@drawable/ic_add_white_24dp"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_show_archived"
+        android:orderInCategory="1"
+        android:title="Show Archived"
+        android:checkable="true"
+        app:showAsAction="never" />
+
+</menu>

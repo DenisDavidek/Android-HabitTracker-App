@@ -9,10 +9,10 @@
 
         <menu>
             <item android:id="@+id/action_sort_by_title"
-                  android:title="Title" />
+                  android:title="@string/action_sort_by_title" />
 
             <item android:id="@+id/action_sort_by_start_date"
-                  android:title="Start Date" />
+                  android:title="@string/action_sort_by_date" />
         </menu>
 
     </item>

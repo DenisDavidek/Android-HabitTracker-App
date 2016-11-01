@@ -25,7 +25,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import net.samclarke.android.habittracker.R;
 import net.samclarke.android.habittracker.adapters.HabitsAdapter;
-import net.samclarke.android.habittracker.provider.HabitsContract;
+import net.samclarke.android.habittracker.provider.HabitsContract.HabitEntry;
 import net.samclarke.android.habittracker.util.DateUtils;
 
 import butterknife.BindView;
@@ -38,11 +38,15 @@ public final class HabitsFragment extends Fragment
     @BindView(R.id.habits_list_empty) TextView mEmptyMessage;
 
     private boolean mIncludeArchived = false;
+    private boolean mSortByTitle = false;
 
     private static final int HABITS_LOADER_ID = 1;
 
     private static final String SELECTION_EXCLUDE_ARCHIVED =
-            HabitsContract.HabitEntry.COLUMN_IS_ARCHIVED + " = 0";
+            HabitEntry.COLUMN_IS_ARCHIVED + " = 0";
+
+    private static final String SORT_BY_TITLE = HabitEntry.COLUMN_NAME + " ASC";
+    private static final String SORT_BY_START_DATE = HabitEntry.COLUMN_START_DATE + " ASC";
 
     private final HabitsAdapter mAdapter = new HabitsAdapter(this);
 
@@ -85,9 +89,17 @@ public final class HabitsFragment extends Fragment
                 mIncludeArchived = item.isChecked();
                 getLoaderManager().restartLoader(HABITS_LOADER_ID, null, this);
                 return true;
-        }
 
-        // TODO: sorts
+            case R.id.action_sort_by_title:
+                mSortByTitle = true;
+                getLoaderManager().restartLoader(HABITS_LOADER_ID, null, this);
+                return true;
+
+            case R.id.action_sort_by_start_date:
+                mSortByTitle = false;
+                getLoaderManager().restartLoader(HABITS_LOADER_ID, null, this);
+                return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -116,17 +128,17 @@ public final class HabitsFragment extends Fragment
 
     @Override
     public void onHabitArchiveClicked(int id) {
-        Uri habitUri = ContentUris.withAppendedId(HabitsContract.HabitEntry.CONTENT_URI, id);
+        Uri habitUri = ContentUris.withAppendedId(HabitEntry.CONTENT_URI, id);
 
         ContentValues values = new ContentValues();
-        values.put(HabitsContract.HabitEntry.COLUMN_IS_ARCHIVED, true);
+        values.put(HabitEntry.COLUMN_IS_ARCHIVED, true);
 
         getContext().getContentResolver().update(habitUri, values, null, null);
     }
 
     @Override
     public void onHabitDeleteClicked(int id) {
-        final Uri habitUri = ContentUris.withAppendedId(HabitsContract.HabitEntry.CONTENT_URI, id);
+        final Uri habitUri = ContentUris.withAppendedId(HabitEntry.CONTENT_URI, id);
 
         new AlertDialog.Builder(getContext())
             .setTitle(getContext().getString(R.string.dialog_remove_habit_title))
@@ -143,6 +155,7 @@ public final class HabitsFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String sortyBy = mSortByTitle ? SORT_BY_TITLE : SORT_BY_START_DATE;
         String selection = "";
 
         if (!mIncludeArchived) {
@@ -151,11 +164,11 @@ public final class HabitsFragment extends Fragment
 
         return new CursorLoader(
                 getContext(),
-                HabitsContract.HabitEntry.CONTENT_WITH_STATUS_URI,
+                HabitEntry.CONTENT_WITH_STATUS_URI,
                 HabitsAdapter.PROJECTION,
-                selection, //selection
+                selection,
                 null,   //selectionArgs
-                null    //sortOrder
+                sortyBy
         );
     }
 

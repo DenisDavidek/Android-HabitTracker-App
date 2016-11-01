@@ -37,6 +37,8 @@ public final class HabitsFragment extends Fragment
     @BindView(R.id.habits_list) RecyclerView mHabitsList;
     @BindView(R.id.habits_list_empty) TextView mEmptyMessage;
 
+    private boolean mIncludeArchived = false;
+
     private static final int HABITS_LOADER_ID = 1;
 
     private static final String SELECTION_EXCLUDE_ARCHIVED =
@@ -77,10 +79,15 @@ public final class HabitsFragment extends Fragment
             case R.id.action_add_habit:
                 startActivity(new Intent(getContext(), CreateHabitActivity.class));
                 return true;
+
+            case R.id.action_include_archived:
+                item.setChecked(!item.isChecked());
+                mIncludeArchived = item.isChecked();
+                getLoaderManager().restartLoader(HABITS_LOADER_ID, null, this);
+                return true;
         }
 
         // TODO: sorts
-        // TODO: if to show archived
 
         return super.onOptionsItemSelected(item);
     }
@@ -136,11 +143,17 @@ public final class HabitsFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String selection = "";
+
+        if (!mIncludeArchived) {
+            selection = SELECTION_EXCLUDE_ARCHIVED;
+        }
+
         return new CursorLoader(
                 getContext(),
                 HabitsContract.HabitEntry.CONTENT_WITH_STATUS_URI,
                 HabitsAdapter.PROJECTION,
-                SELECTION_EXCLUDE_ARCHIVED, //selection
+                selection, //selection
                 null,   //selectionArgs
                 null    //sortOrder
         );

@@ -10,18 +10,23 @@ import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
 
 import net.samclarke.android.habittracker.R;
+import net.samclarke.android.habittracker.provider.HabitsContract.ReminderEntry;
 import net.samclarke.android.habittracker.util.UIUtils;
 
+import java.util.Calendar;
 
-public class GeofenceTransitionsIntentService extends IntentService {
-    private static final String TAG = GeofenceTransitionsIntentService.class.getSimpleName();
+
+public class GeofenceTransitionIntentService extends IntentService {
+    private static final String LOG_TAG = GeofenceTransitionIntentService.class.getSimpleName();
 
     public static final String EXTRA_REMINDER_ID = "reminder_id";
     public static final String EXTRA_HABIT_ID = "habit_id";
     public static final String EXTRA_HABIT_NAME = "habit_name";
+    public static final String EXTRA_FREQUENCY = "frequency";
+    public static final String EXTRA_FREQUENCY_VALUE = "frequency_value";
 
-    public GeofenceTransitionsIntentService() {
-        super(TAG);
+    public GeofenceTransitionIntentService() {
+        super(LOG_TAG);
     }
 
     String getGeofenceErrorString(int errorCode) {
@@ -41,16 +46,16 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(TAG, "Received Geofence transition intent");
+        Log.i(LOG_TAG, "Received Geofence transition intent");
 
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
 
         if (geofencingEvent.hasError()) {
-            Log.e(TAG, getGeofenceErrorString(geofencingEvent.getErrorCode()));
+            Log.e(LOG_TAG, getGeofenceErrorString(geofencingEvent.getErrorCode()));
             return;
         }
 
-        Log.i(TAG, String.valueOf(geofencingEvent.getGeofenceTransition()));
+        Log.i(LOG_TAG, String.valueOf(geofencingEvent.getGeofenceTransition()));
 
         switch (geofencingEvent.getGeofenceTransition()) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
@@ -59,22 +64,35 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 int reminderId = intent.getIntExtra(EXTRA_REMINDER_ID, -1);
                 int habitId = intent.getIntExtra(EXTRA_HABIT_ID, -1);
                 String habitName = intent.getStringExtra(EXTRA_HABIT_NAME);
+                int frequency = intent.getIntExtra(EXTRA_FREQUENCY, -1);
+                int frequencyValue = intent.getIntExtra(EXTRA_FREQUENCY_VALUE, 0);
 
                 if (reminderId == -1) {
-                    Log.e(TAG, "Geofence intent missing reminder ID");
+                    Log.e(LOG_TAG, "Geofence intent missing reminder ID");
                     return;
                 }
 
                 if (habitId == -1) {
-                    Log.e(TAG, "Geofence intent missing habit ID");
+                    Log.e(LOG_TAG, "Geofence intent missing habit ID");
                     return;
                 }
-                Log.e("habitId", String.valueOf(habitId));
-                Log.e("reminderId", String.valueOf(reminderId));
+
+                if (frequency == -1) {
+                    Log.e(LOG_TAG, "Geofence intent missing frequency");
+                    return;
+                }
+
+                if (frequency == ReminderEntry.FREQUENCY_WEEKLY) {
+                    int todayMask = 1 << Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                    if ((frequencyValue & todayMask) != todayMask) {
+                        return;
+                    }
+                }
+
                 UIUtils.showReminderNotification(this, reminderId, habitId, habitName);
                 break;
             default:
-                Log.e(TAG, "Invalid Geofencing transition");
+                Log.e(LOG_TAG, "Invalid Geofencing transition");
         }
     }
 }

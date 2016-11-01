@@ -55,7 +55,7 @@
             android:authorities="@string/authority"
             android:exported="false"/>
 
-        <service android:name=".notifications.GeofenceTransitionsIntentService"/>
+        <service android:name=".notifications.GeofenceTransitionIntentService"/>
         <service android:name=".notifications.ActionIntentService"/>
         <service android:name=".notifications.RescheduleIntentService"/>
         <receiver android:name=".notifications.AlarmReceiver" />

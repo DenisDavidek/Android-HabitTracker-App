@@ -378,11 +378,11 @@ public class DetailsFragment extends Fragment implements OnDateSelectedListener,
     private static final class HabitQuery {
         private HabitQuery() {}
 
-        public static final int ID = 500;
+        static final int ID = 500;
 
-        public static final String SELECTION = HabitEntry._ID + " = ?";
+        static final String SELECTION = HabitEntry._ID + " = ?";
 
-        public static final String[] PROJECTION = new String[] {
+        static final String[] PROJECTION = new String[] {
                 HabitEntry.COLUMN_START_DATE,
                 HabitEntry.COLUMN_FREQUENCY,
                 HabitEntry.COLUMN_FREQUENCY_VALUE,
@@ -393,47 +393,47 @@ public class DetailsFragment extends Fragment implements OnDateSelectedListener,
                 HabitEntry.COLUMN_TARGET_OPERATOR
         };
 
-        public static final int COLUMN_START_DATE = 0;
-        public static final int COLUMN_FREQUENCY = 1;
-        public static final int COLUMN_FREQUENCY_VALUE = 2;
-        public static final int COLUMN_COLOR = 3;
-        public static final int COLUMN_DESCRIPTION = 4;
-        public static final int COLUMN_TARGET = 5;
-        public static final int COLUMN_TARGET_TYPE = 6;
-        public static final int COLUMN_TARGET_OPERATOR = 7;
+        static final int COLUMN_START_DATE = 0;
+        static final int COLUMN_FREQUENCY = 1;
+        static final int COLUMN_FREQUENCY_VALUE = 2;
+        static final int COLUMN_COLOR = 3;
+        static final int COLUMN_DESCRIPTION = 4;
+        static final int COLUMN_TARGET = 5;
+        static final int COLUMN_TARGET_TYPE = 6;
+        static final int COLUMN_TARGET_OPERATOR = 7;
     }
 
     private static final class CheckInQuery {
         private CheckInQuery() {}
 
-        public static final int ID = 501;
+        static final int ID = 501;
 
-        public static final String SELECTION = CheckInEntry.COLUMN_HABIT_ID + " = ?";
-        public static final String ORDER_BY_DATE = CheckInEntry.COLUMN_DATE;
+        static final String SELECTION = CheckInEntry.COLUMN_HABIT_ID + " = ?";
+        static final String ORDER_BY_DATE = CheckInEntry.COLUMN_DATE;
 
-        public static final String[] PROJECTION = new String[] {
+        static final String[] PROJECTION = new String[] {
                 CheckInEntry.COLUMN_DATE,
                 CheckInEntry.COLUMN_STATUS
         };
 
-        public static final int COLUMN_DATE = 0;
-        public static final int COLUMN_STATUS = 1;
+        static final int COLUMN_DATE = 0;
+        static final int COLUMN_STATUS = 1;
     }
 
     private static class DayStatus {
         private int mStatus;
         private int mStreak;
 
-        public DayStatus(int status, int streak) {
+        DayStatus(int status, int streak) {
             mStatus = status;
             mStreak = streak;
         }
 
-        public int getStatus() {
+        int getStatus() {
             return mStatus;
         }
 
-        public int getStreak() {
+        int getStreak() {
             return mStreak;
         }
     }

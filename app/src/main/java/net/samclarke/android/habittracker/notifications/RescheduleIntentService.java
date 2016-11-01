@@ -118,7 +118,6 @@ public class RescheduleIntentService extends IntentService {
         SparseArray<String> nameCache = new SparseArray<>();
 
         do {
-            int reminderId = cursor.getInt(RemindersQuery.COLUMN_ID);
             int habitId = cursor.getInt(RemindersQuery.COLUMN_HABIT_ID);
             String habitName = nameCache.get(habitId);
 
@@ -128,23 +127,21 @@ public class RescheduleIntentService extends IntentService {
             }
 
             if (!cursor.isNull(RemindersQuery.COLUMN_GEO_TYPE)) {
-                double lat = cursor.getDouble(RemindersQuery.COLUMN_GEO_LAT);
-                double lng = cursor.getDouble(RemindersQuery.COLUMN_GEO_LONG);
-                int type = cursor.getInt(RemindersQuery.COLUMN_GEO_TYPE);
-
-                rescheduleGeofence(clearOnly, reminderId, habitId, habitName, lat, lng, type);
+                rescheduleGeofence(clearOnly, cursor, habitName);
             } else {
-                int timeInMinutes = cursor.getInt(RemindersQuery.COLUMN_TIME);
-                int hour = timeInMinutes / 60;
-                int minute = timeInMinutes % 60;
-
-                rescheduleAlarm(clearOnly, reminderId, habitId, habitName, hour, minute);
+                rescheduleAlarm(clearOnly, cursor, habitName);
             }
         } while (cursor.moveToNext());
     }
 
-    private void rescheduleAlarm(boolean clearOnly, int reminderId, int habitId, String habitName,
-                                 int hour, int minute) {
+    private void rescheduleAlarm(boolean clearOnly, Cursor cursor, String habitName) {
+        int reminderId = cursor.getInt(RemindersQuery.COLUMN_ID);
+        int habitId = cursor.getInt(RemindersQuery.COLUMN_HABIT_ID);
+        int frequency = cursor.getInt(RemindersQuery.COLUMN_FREQUENCY);
+        int frequencyValue = cursor.getInt(RemindersQuery.COLUMN_FREQUENCY_VALUE);
+        int timeInMinutes = cursor.getInt(RemindersQuery.COLUMN_TIME);
+        int hour = timeInMinutes / 60;
+        int minute = timeInMinutes % 60;
 
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
@@ -152,6 +149,8 @@ public class RescheduleIntentService extends IntentService {
         intent.putExtra(AlarmReceiver.EXTRA_REMINDER_ID, reminderId);
         intent.putExtra(AlarmReceiver.EXTRA_HABIT_ID, habitId);
         intent.putExtra(AlarmReceiver.EXTRA_HABIT_NAME, habitName);
+        intent.putExtra(AlarmReceiver.EXTRA_FREQUENCY, frequency);
+        intent.putExtra(AlarmReceiver.EXTRA_FREQUENCY_VALUE, frequencyValue);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, reminderId, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -183,13 +182,21 @@ public class RescheduleIntentService extends IntentService {
     }
 
 
-    private void rescheduleGeofence(boolean clearOnly, int reminderId, int habitId,
-                                    String habitName, double latitude, double longitude, int type) {
+    private void rescheduleGeofence(boolean clearOnly, Cursor cursor, String habitName) {
+        int reminderId = cursor.getInt(RemindersQuery.COLUMN_ID);
+        int habitId = cursor.getInt(RemindersQuery.COLUMN_HABIT_ID);
+        int frequency = cursor.getInt(RemindersQuery.COLUMN_FREQUENCY);
+        int frequencyValue = cursor.getInt(RemindersQuery.COLUMN_FREQUENCY_VALUE);
+        double latitude = cursor.getDouble(RemindersQuery.COLUMN_GEO_LAT);
+        double longitude = cursor.getDouble(RemindersQuery.COLUMN_GEO_LONG);
+        int type = cursor.getInt(RemindersQuery.COLUMN_GEO_TYPE);
 
-        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-        intent.putExtra(GeofenceTransitionsIntentService.EXTRA_REMINDER_ID, reminderId);
-        intent.putExtra(GeofenceTransitionsIntentService.EXTRA_HABIT_ID, habitId);
-        intent.putExtra(GeofenceTransitionsIntentService.EXTRA_HABIT_NAME, habitName);
+        Intent intent = new Intent(this, GeofenceTransitionIntentService.class);
+        intent.putExtra(GeofenceTransitionIntentService.EXTRA_REMINDER_ID, reminderId);
+        intent.putExtra(GeofenceTransitionIntentService.EXTRA_HABIT_ID, habitId);
+        intent.putExtra(GeofenceTransitionIntentService.EXTRA_HABIT_NAME, habitName);
+        intent.putExtra(GeofenceTransitionIntentService.EXTRA_FREQUENCY, frequency);
+        intent.putExtra(GeofenceTransitionIntentService.EXTRA_FREQUENCY_VALUE, frequencyValue);
 
         PendingIntent pendingIntent = PendingIntent.getService(this, reminderId,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);

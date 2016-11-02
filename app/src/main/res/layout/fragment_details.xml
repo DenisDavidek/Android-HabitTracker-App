@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/habit_details_progress"
+            android:text="@string/habit_details_progress_past_month"
             style="@style/TextAppearance.AppCompat.Body2" />
 
         <com.github.mikephil.charting.charts.LineChart
@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/habit_details_longest_streaks"
+            android:text="@string/habit_details_top_streaks"
             style="@style/TextAppearance.AppCompat.Body2" />
 
         <com.github.mikephil.charting.charts.HorizontalBarChart

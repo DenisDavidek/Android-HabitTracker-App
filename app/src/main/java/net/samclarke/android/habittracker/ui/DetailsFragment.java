@@ -3,7 +3,6 @@ package net.samclarke.android.habittracker.ui;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -156,7 +155,7 @@ public class DetailsFragment extends Fragment implements OnDateSelectedListener,
             entries.add(new Entry(currentStreak, i));
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Progress");
+        LineDataSet dataSet = new LineDataSet(entries, getString(R.string.habit_details_progress));
         LineData data = new LineData(xVals, dataSet);
 
         dataSet.setColor(ContextCompat.getColor(getContext(), R.color.primary));
@@ -186,19 +185,19 @@ public class DetailsFragment extends Fragment implements OnDateSelectedListener,
         ArrayList<Integer> colors = new ArrayList<>();
 
         if (status[CheckInEntry.STATUS_COMPLETE] > 0) {
-            xVals.add("Complete");
+            xVals.add(getString(R.string.habit_details_status_complete));
             entries.add(new BarEntry(status[CheckInEntry.STATUS_COMPLETE], 0));
             colors.add(ContextCompat.getColor(getContext(), R.color.day_done));
         }
 
         if (status[CheckInEntry.STATUS_SKIPPED] > 0) {
-            xVals.add("Skipped");
+            xVals.add(getString(R.string.habit_details_status_skipped));
             entries.add(new BarEntry(status[CheckInEntry.STATUS_SKIPPED], 1));
             colors.add(ContextCompat.getColor(getContext(), R.color.day_skipped));
         }
 
         if (status[CheckInEntry.STATUS_FAILED] > 0) {
-            xVals.add("Failed");
+            xVals.add(getString(R.string.habit_details_status_failed));
             entries.add(new BarEntry(status[CheckInEntry.STATUS_FAILED], 2));
             colors.add(ContextCompat.getColor(getContext(), R.color.day_failed));
         }
@@ -233,7 +232,7 @@ public class DetailsFragment extends Fragment implements OnDateSelectedListener,
             idx++;
         }
 
-        BarDataSet dataSet = new BarDataSet(entries, "Longest Streaks");
+        BarDataSet dataSet = new BarDataSet(entries, getString(R.string.habit_details_longest_streaks));
         dataSet.setColor(ContextCompat.getColor(getContext(), R.color.primary));
         dataSet.setValueTextSize(12);
 

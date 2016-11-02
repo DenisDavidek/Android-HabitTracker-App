@@ -13,30 +13,48 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class GoalsUtils {
-//    public static void updateAllGoals(Context context) {
-//        final int COLUMN_ID = 0;
-//        final Cursor cursor = context.getContentResolver().query(
-//                HabitEntry.CONTENT_URI,
-//                new String[] { HabitEntry._ID },
-//                null, // Selection
-//                null, // selectionArgs
-//                null // orderBy
-//        );
-//
-//        if (cursor == null) {
-//            return;
-//        }
-//
-//        try {
-//            if (cursor.moveToFirst()) {
-//                do {
-//                    updateHabitGoals(context, cursor.getInt(COLUMN_ID), 0);
-//                } while (cursor.moveToNext());
-//            }
-//        } finally {
-//            cursor.close();
-//        }
-//    }
+    public static class GoalStats {
+        public final int completed;
+        public final int total;
+
+        GoalStats(int completed, int total) {
+            this.completed = completed;
+            this.total = total;
+        }
+    }
+
+    public static GoalStats getStats(Context context) {
+        final Cursor cursor = context.getContentResolver().query(
+                GoalEntry.CONTENT_URI,
+                GoalStatsQuery.PROJECTION,
+                "", // Selection
+                null, // selectionArgs
+                null // orderBy
+        );
+
+        if (cursor == null) {
+            return null;
+        }
+
+        try {
+            int completed = 0;
+
+            if (cursor.moveToFirst()) {
+                do {
+                    if (cursor.getInt(GoalStatsQuery.COLUMN_PROGRESS) >=
+                            cursor.getInt(GoalStatsQuery.COLUMN_TARGET)) {
+
+                        completed += 1;
+                    }
+                } while (cursor.moveToNext());
+
+            }
+
+            return new GoalStats(completed, cursor.getCount());
+        } finally {
+            cursor.close();
+        }
+    }
 
     public static void updateHabitGoals(Context context, int habitId, int from) {
         long fromDate = TimeUnit.SECONDS.toMillis(DateUtils.clearTime(from));
@@ -184,5 +202,17 @@ public class GoalsUtils {
         public static final int COLUMN_TARGET = 1;
         public static final int COLUMN_PROGRESS = 2;
         public static final int COLUMN_ID = 3;
+    }
+
+    private static final class GoalStatsQuery {
+        private GoalStatsQuery() {}
+
+        public static final String[] PROJECTION = new String[] {
+                GoalEntry.COLUMN_PROGRESS,
+                GoalEntry.COLUMN_TARGET
+        };
+
+        public static final int COLUMN_PROGRESS = 0;
+        public static final int COLUMN_TARGET = 1;
     }
 }

@@ -5,7 +5,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.preference.PreferenceManager;
 
 import net.samclarke.android.habittracker.R;
 import net.samclarke.android.habittracker.notifications.ActionIntentService;
@@ -16,6 +18,21 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class UIUtils {
+    public static String getQuoteOfDay(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return prefs.getString(context.getString(R.string.pref_quote_of_day),
+                context.getString(R.string.default_quote_of_day));
+    }
+
+    public static void setQuoteOfDay(Context context, String quote) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(context.getString(R.string.pref_quote_of_day), quote);
+        editor.apply();
+    }
+
     public static String formatTarget(Context context, int target, int type, int operator) {
         String[] operators = context.getResources().getStringArray(R.array.target_operators);
         String[] types = context.getResources().getStringArray(R.array.target_types);

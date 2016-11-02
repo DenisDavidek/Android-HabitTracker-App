@@ -6,6 +6,18 @@ import android.database.Cursor;
 import net.samclarke.android.habittracker.provider.HabitsContract.CheckInEntry;
 
 public class CheckInUtils {
+    public static class CheckInStats {
+        public final int done;
+        public final int skipped;
+        public final int failed;
+
+        CheckInStats(int done, int skipped, int failed) {
+            this.done = done;
+            this.skipped = skipped;
+            this.failed = failed;
+        }
+    }
+
     public static int getLongestStreak(Context context, int habitId, int startDate) {
         final int startTimestamp = DateUtils.clearTime(startDate);
         final Cursor cursor = context.getContentResolver().query(
@@ -43,35 +55,44 @@ public class CheckInUtils {
         }
     }
 
-    public static int currentStreak(Context context, int habitId) {
+
+    public static CheckInStats getStats(Context context) {
         final Cursor cursor = context.getContentResolver().query(
                 CheckInEntry.CONTENT_URI,
-                CheckInQuery.PROJECTION,
-                CheckInQuery.SELECTION,
-                new String[] { String.valueOf(habitId) },
-                CheckInQuery.ORDER_BY_DATE
+                CheckInStatsQuery.PROJECTION,
+                "", // selection
+                null, // selectionArgs
+                null // order
         );
 
         if (cursor == null) {
-            return -1;
+            return null;
         }
 
         try {
-            int streak = 0;
+            int done = 0;
+            int skipped = 0;
+            int failed = 0;
 
-            if (cursor.moveToLast()) {
+            if (cursor.moveToFirst()) {
                 do {
-                    int status = cursor.getInt(CheckInQuery.COLUMN_STATUS);
+                    switch (cursor.getInt(CheckInQuery.COLUMN_STATUS)) {
+                        case CheckInEntry.STATUS_COMPLETE:
+                            done += 1;
+                            break;
 
-                    if (status == CheckInEntry.STATUS_COMPLETE) {
-                        streak += 1;
-                    } else if (status == CheckInEntry.STATUS_FAILED) {
-                        return streak;
+                        case CheckInEntry.STATUS_FAILED:
+                            failed += 1;
+                            break;
+
+                        case CheckInEntry.STATUS_SKIPPED:
+                            skipped += 1;
+                            break;
                     }
-                } while (cursor.moveToPrevious());
+                } while (cursor.moveToNext());
             }
 
-            return streak;
+            return new CheckInStats(done, skipped, failed);
         } finally {
             cursor.close();
         }
@@ -87,6 +108,16 @@ public class CheckInUtils {
                 CheckInEntry.COLUMN_HABIT_ID + " = ? AND " + CheckInEntry.COLUMN_DATE + " >= ?";
 
         public static final String ORDER_BY_DATE = CheckInEntry.COLUMN_DATE;
+
+        public static final String[] PROJECTION = new String[] {
+                CheckInEntry.COLUMN_STATUS
+        };
+
+        public static final int COLUMN_STATUS = 0;
+    }
+
+    private static final class CheckInStatsQuery {
+        private CheckInStatsQuery() {}
 
         public static final String[] PROJECTION = new String[] {
                 CheckInEntry.COLUMN_STATUS

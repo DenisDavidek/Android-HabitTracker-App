@@ -1,8 +1,10 @@
 package net.samclarke.android.habittracker.provider;
 
+import android.appwidget.AppWidgetManager;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteQueryBuilder;
@@ -166,6 +168,7 @@ public class HabitsProvider extends ContentProvider {
 
                 if (getContext() != null) {
                     getContext().getContentResolver().notifyChange(uri, null);
+                    getContext().sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
                 }
 
                 return ContentUris.withAppendedId(uri, id);
@@ -189,10 +192,9 @@ public class HabitsProvider extends ContentProvider {
                         .delete(getTable(uri), addIdToSelection(uri, selection), selectionArgs);
 
                 // null selection will delete all rows
-                if (selection == null || rows > 0) {
-                    if (getContext() != null) {
-                        getContext().getContentResolver().notifyChange(uri, null);
-                    }
+                if ((selection == null || rows > 0) && getContext() != null) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                    getContext().sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
                 }
 
                 return rows;
@@ -219,6 +221,7 @@ public class HabitsProvider extends ContentProvider {
 
                 if (rows > 0 && getContext() != null) {
                     getContext().getContentResolver().notifyChange(uri, null);
+                    getContext().sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
                 }
 
                 return rows;

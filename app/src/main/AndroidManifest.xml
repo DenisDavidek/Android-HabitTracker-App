@@ -48,18 +48,30 @@
             android:name=".ui.HabitActivity"
             android:label="@string/title_activity_habit_details"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+
+        </activity>
 
         <activity
             android:name=".ui.RequestPermissionActivity"
             android:label="@string/title_activity_request_permission"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+
+        </activity>
 
         <provider
             android:name=".provider.HabitsProvider"
             android:authorities="@string/authority"
-            android:exported="false"/>
+            android:exported="true"/>
 
         <service android:name=".notifications.GeofenceTransitionIntentService"/>
         <service android:name=".notifications.ActionIntentService"/>
@@ -98,6 +110,20 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
+
+        <receiver android:name=".widget.HabitsWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/habits_appwidget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.HabitsRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 

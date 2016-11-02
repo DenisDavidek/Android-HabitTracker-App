@@ -155,7 +155,7 @@ public final class HabitsFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String sortyBy = mSortByTitle ? SORT_BY_TITLE : SORT_BY_START_DATE;
+        String sortBy = mSortByTitle ? SORT_BY_TITLE : SORT_BY_START_DATE;
         String selection = "";
 
         if (!mIncludeArchived) {
@@ -168,7 +168,7 @@ public final class HabitsFragment extends Fragment
                 HabitsAdapter.PROJECTION,
                 selection,
                 null,   //selectionArgs
-                sortyBy
+                sortBy
         );
     }
 

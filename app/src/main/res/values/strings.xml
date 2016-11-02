@@ -7,6 +7,8 @@
 
     <string name="app_name">Habit Tracker</string>
 
+    <string name="widget_empty">There are no habits to display</string>
+
     <string name="title_activity_habit_details">Habit Details</string>
     <string name="title_activity_statistics">Statistics</string>
     <string name="title_activity_create_habit">Create Habit</string>

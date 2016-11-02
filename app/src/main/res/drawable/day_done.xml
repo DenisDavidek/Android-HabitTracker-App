@@ -4,5 +4,6 @@
     android:shape="oval">
 
     <solid android:color="@color/day_done"/>
+    <size android:width="16dp" android:height="16dp"/>
 
 </shape>

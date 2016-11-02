@@ -1,5 +1,8 @@
 package net.samclarke.android.habittracker.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -8,9 +11,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import net.samclarke.android.habittracker.R;
+import net.samclarke.android.habittracker.sync.SyncAdapter;
+import net.samclarke.android.habittracker.util.UIUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.navigation_view) NavigationView mNavigationView;
     ActionBarDrawerToggle mDrawerToggle;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SyncAdapter.initializeSyncAdapter(this);
 
         setContentView(R.layout.activity_main);
 
@@ -47,6 +56,20 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 selectDrawerItem(item);
                 return true;
+            }
+        });
+
+        mNavigationView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5,
+                                       int i6, int i7) {
+
+                mNavigationView.removeOnLayoutChangeListener( this );
+
+                TextView header = (TextView) mNavigationView.findViewById(R.id.quote_of_the_day);
+                if (header != null) {
+                    header.setText(UIUtils.getQuoteOfDay(MainActivity.this));
+                }
             }
         });
     }

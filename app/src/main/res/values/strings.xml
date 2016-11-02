@@ -1,5 +1,9 @@
 <resources>
     <string name="authority" translatable="false">net.samclarke.android.habittracker.provider</string>
+    <string name="sync_account_type" translatable="false">habittracker.samclarke.net</string>
+    <string name="pref_quote_of_day" translatable="false">pref_quote_of_day</string>
+
+    <string name="default_quote_of_day">It always seems impossible until its done. \n- Nelson Mandela</string>
 
     <string name="app_name">Habit Tracker</string>
 
@@ -106,10 +110,15 @@
 
 
     <!-- Habit details view -->
-    <string name="habit_details_longest_streaks">Top 5 streaks</string>
+    <string name="habit_details_top_streaks">Top 5 streaks</string>
     <string name="habit_details_day_statuses">Day status</string>
-    <string name="habit_details_progress">Progress during the past 30 days</string>
+    <string name="habit_details_progress_past_month">Progress during the past 30 days</string>
     <string name="habit_details_progress_check_ins">Check Ins</string>
+    <string name="habit_details_status_complete">Complete</string>
+    <string name="habit_details_status_skipped">Skipped</string>
+    <string name="habit_details_status_failed">Failed</string>
+    <string name="habit_details_longest_streaks">Longest Streaks</string>
+    <string name="habit_details_progress">Progress</string>
 
 
     <!-- Goal dialog -->
@@ -127,6 +136,15 @@
     <string name="goals_empty_list">You currently have no goals</string>
     <string name="goal_target_streak">Target: %1$s day streak</string>
     <string name="goal_menu">Goal menu</string>
+
+
+    <!-- Statistics view -->
+    <string name="stats_goals_title">Goal stats</string>
+    <string name="stats_goals_body">You have completed %1$d goals and have %2$d goals remaining.</string>
+    <string name="stats_check_ins_title">Check In stats</string>
+    <string name="stats_check_ins_done">Complete</string>
+    <string name="stats_check_ins_skipped">Skipped</string>
+    <string name="stats_check_ins_failed">Failed</string>
 
 
     <!-- Reminders list view -->

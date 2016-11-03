@@ -27,6 +27,6 @@
         android:gravity="center"
         android:scaleType="centerInside"
         android:layout_marginBottom="58sp"
-        android:contentDescription="@null"
+        android:contentDescription="@string/request_permission_icon"
         android:src="@drawable/ic_settings_black_128px"/>
 </LinearLayout>

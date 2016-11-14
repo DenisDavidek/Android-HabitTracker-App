@@ -1,4 +1,4 @@
-# ![App icon](docs/screentshots/icon.svg?raw=true) Habit Tracker
+# ![App icon](docs/screentshots/icon.png?raw=true) Habit Tracker
 
 
 Habit tracker app for Android created as capstone project for the Udacity nanodegree.
